@@ -42,8 +42,8 @@ function App() {
       
       <form action="/submit" method="post" className="space-y-6">
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-left text-gray-700">ご相談内容（複数選択可）</h2>
-          <div className="grid grid-cols-1 gap-3 pl-2">
+          <h2 className="text-xl font-semibold text-left text-gray-700 pl-1">ご相談内容（複数選択可）</h2>
+          <div className="grid grid-cols-1 gap-3 pl-1">
             {[
               { id: 'land', label: '土地購入' },
               { id: 'used-house', label: '中古住宅購入' },
@@ -71,10 +71,10 @@ function App() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-left text-gray-700">予約希望日時</h2>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="flex flex-col space-y-2">
-              <label htmlFor="date" className="text-gray-700">日付：</label>
+          <h2 className="text-xl font-semibold text-left text-gray-700 pl-1">予約希望日時</h2>
+          <div className="grid grid-cols-1 gap-4 pl-1">
+            <div className="space-y-2">
+              <label htmlFor="date" className="block text-gray-700">日付：</label>
               <input
                 type="date"
                 id="date"
@@ -84,8 +84,8 @@ function App() {
               />
               <p className="text-gray-500 text-sm">※水曜日は定休日です</p>
             </div>
-            <div className="flex flex-col space-y-2">
-              <label htmlFor="time" className="text-gray-700">時間：</label>
+            <div className="space-y-2">
+              <label htmlFor="time" className="block text-gray-700">時間：</label>
               <select
                 id="time"
                 name="time"
@@ -110,16 +110,16 @@ function App() {
                 name="message"
                 rows="4"
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                placeholder="※気になる物件詳細ページ（ポータルサイトも可）のURLを記載いただきますとスムーズにご案内させていただきます。"
+                placeholder="※気になる物件詳細ページ（ポータルサイトも可）のURLを記載いただきますとスムーズにご案内させていただきます"
               ></textarea>
             </div>
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 flex justify-center">
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-4/5 bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             予約する
           </button>
