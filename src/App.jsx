@@ -5,6 +5,7 @@ import "./App.css";
 function App() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isLiffInitialized, setIsLiffInitialized] = useState(false);
 
   useEffect(() => {
     liff
@@ -13,6 +14,7 @@ function App() {
       })
       .then(() => {
         setMessage("LIFF init succeeded.");
+        setIsLiffInitialized(true);
       })
       .catch((e) => {
         setMessage("LIFF init failed.");
@@ -23,8 +25,8 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!liff.isInClient()) {
-      setError("LINEアプリ内でのみメッセージを送信できます。");
+    if (!isLiffInitialized) {
+      setError("LIFFの初期化が完了していません。");
       return;
     }
 
@@ -46,6 +48,13 @@ ${date} ${time}
 ${message || 'なし'}
     `.trim();
 
+    console.log("Sending message:", messageText);
+    
+    if (!liff.isInClient()) {
+      setError("このアプリはLINE内でのみ利用可能です");
+      return;
+    }
+
     try {
       await liff.sendMessages([
         {
@@ -55,11 +64,11 @@ ${message || 'なし'}
       ]);
       console.log("message sent");
       
-      // 送信成功後にLIFFブラウザを閉じる
+      alert("送信が完了しました");
       liff.closeWindow();
     } catch (err) {
-      console.error("error", err);
-      setError("メッセージの送信に失敗しました。");
+      console.error("Error details:", err);
+      setError(`送信に失敗しました: ${err.message}`);
     }
   };
 
