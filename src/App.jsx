@@ -35,46 +35,39 @@ function App() {
   }, []);
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white min-h-screen">
-      <h1 className="text-2xl font-bold text-center mb-8 text-gray-800">不動産相談予約フォーム</h1>
-      {/*{message && <p>{message}</p>}
-      {error && <p><code>{error}</code></p>}*/}
+    <div className="max-w-lg mx-auto p-6 bg-white min-h-screen">
+      <h1 className="text-2xl font-bold text-center mb-8 text-gray-800">イズホーム不動産 お問い合わせフォーム</h1>
+      {message && <p>{message}</p>}
+      {error && <p><code>{error}</code></p>}
       
       <form action="/submit" method="post" className="space-y-6">
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-left text-gray-700 pl-1">ご相談内容（複数選択可）</h2>
-          <div className="grid grid-cols-1 gap-3 pl-1">
+          <h2 className="text-lg font-semibold text-left text-gray-700">お問い合わせ内容 <span className="text-red-500">*</span></h2>
+          <div className="grid grid-cols-2 gap-3">
             {[
-              { id: 'land', label: '土地購入' },
-              { id: 'used-house', label: '中古住宅購入' },
-              { id: 'used-mansion', label: '中古マンション購入' },
-              { id: 'sell', label: '売却・住みかえ相談' },
-              { id: 'reform', label: 'リフォーム相談' },
-              { id: 'new-build', label: '新築相談' },
-              { id: 'surrounding', label: '周辺環境相談' },
-              { id: 'free-consultation', label: '無料相談会に参加希望' },
-              { id: 'remote-inspection', label: 'リモート内見希望' },
-              { id: 'other', label: 'その他' }
-            ].map((item) => (
-              <label key={item.id} className="flex items-center space-x-3 text-gray-700">
+              '土地購入', '中古住宅購入', '中古マンション購入', '売却・住みかえ相談',
+              'リフォーム相談', '新築相談', '周辺環境相談', '無料相談会に参加希望',
+              'リモートで見学希望', 'その他'
+            ].map((label, index) => (
+              <label key={index} className="flex items-center space-x-2 text-gray-700">
                 <input
                   type="checkbox"
-                  id={item.id}
                   name="consultation_type"
-                  value={item.label}
+                  value={label}
                   className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                 />
-                <span>{item.label}</span>
+                <span>{label}</span>
               </label>
             ))}
           </div>
+          <p className="text-red-500 text-sm">※お問い合わせ内容を1つ以上選択してください。</p>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-left text-gray-700 pl-1">予約希望日時</h2>
-          <div className="grid grid-cols-1 gap-4 pl-1">
-            <div className="space-y-2">
-              <label htmlFor="date" className="block text-gray-700">日付：</label>
+          <h2 className="text-lg font-semibold text-left text-gray-700">希望日時</h2>
+          <div className="flex space-x-4">
+            <div className="flex-1">
+              <label htmlFor="date" className="block text-gray-700">日付を選択</label>
               <input
                 type="date"
                 id="date"
@@ -84,8 +77,8 @@ function App() {
               />
               <p className="text-gray-500 text-sm">※水曜日は定休日です</p>
             </div>
-            <div className="space-y-2">
-              <label htmlFor="time" className="block text-gray-700">時間：</label>
+            <div className="flex-1">
+              <label htmlFor="time" className="block text-gray-700">時間を選択</label>
               <select
                 id="time"
                 name="time"
@@ -102,26 +95,24 @@ function App() {
         </div>
 
         <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-4">
-            <div className="flex flex-col space-y-2">
-              <label htmlFor="message" className="text-gray-700">ご要望・ご質問など：</label>
-              <textarea
-                id="message"
-                name="message"
-                rows="4"
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                placeholder="※気になる物件詳細ページ（ポータルサイトも可）のURLを記載いただきますとスムーズにご案内させていただきます"
-              ></textarea>
-            </div>
-          </div>
+          <h2 className="text-lg font-semibold text-left text-gray-700">その他ご要望</h2>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            placeholder="ご自由にお書きください"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+          ></textarea>
         </div>
+
+        <p className="text-sm text-gray-500">※*は必須項目です。</p>
 
         <div className="pt-4 flex justify-center">
           <button
             type="submit"
-            className="w-4/5 bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-1/2 bg-black text-white py-3 px-4 rounded-md hover:bg-gray-800 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            予約する
+            送信する
           </button>
         </div>
       </form>
