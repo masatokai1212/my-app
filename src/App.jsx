@@ -18,12 +18,16 @@ function App() {
         setMessage("LIFF init failed.");
         setError(`${e}`);
       });
-  });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // フォームデータの取得
+    if (!liff.isInClient()) {
+      setError("LINEアプリ内でのみメッセージを送信できます。");
+      return;
+    }
+
     const formData = new FormData(e.target);
     const selectedTypes = formData.getAll('consultation_type');
     const date = formData.get('date');
@@ -134,7 +138,7 @@ ${message || 'なし'}
           ></textarea>
         </div>
 
-        <p className="text-sm text-gray-500">※*は必須項目です。</p>
+        <p className="text-base text-gray-500 mt-4">※*は必須項目です。</p>
 
         <div className="pt-6 flex justify-center">
           <button
