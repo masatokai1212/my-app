@@ -30,6 +30,11 @@ function App() {
       return;
     }
 
+    if (!liff.isInClient()) {
+      setError("このアプリはLINE内でのみ利用可能です");
+      return;
+    }
+
     const formData = new FormData(e.target);
     const selectedTypes = formData.getAll('consultation_type');
     const date = formData.get('date');
@@ -48,22 +53,16 @@ ${date} ${time}
 ${message || 'なし'}
     `.trim();
 
-    console.log("Sending message:", messageText);
-    
-    if (!liff.isInClient()) {
-      setError("このアプリはLINE内でのみ利用可能です");
-      return;
-    }
-
     try {
+      console.log("Sending message:", messageText);
+      
       await liff.sendMessages([
         {
           type: "text",
-          text: messageText,
-        },
+          text: messageText
+        }
       ]);
-      console.log("message sent");
-      
+
       alert("送信が完了しました");
       liff.closeWindow();
     } catch (err) {
