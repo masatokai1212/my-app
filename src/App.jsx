@@ -12,38 +12,67 @@ function App() {
         liffId: import.meta.env.VITE_LIFF_ID
       })
       .then(() => {
-        //setMessage("LIFF init succeeded.");
+        setMessage("LIFF init succeeded.");
       })
       .catch((e) => {
-        //setMessage("LIFF init failed.");
+        setMessage("LIFF init failed.");
         setError(`${e}`);
       });
   });
 
-  useEffect(() => {
-    // 水曜日を除外する処理
-    const dateInput = document.getElementById('date');
-    if (dateInput) {
-      dateInput.addEventListener('input', function(e) {
-        const selected = new Date(this.value);
-        if (selected.getDay() === 3) { // 水曜日は3
-          alert('水曜日は予約できません。他の日を選択してください。');
-          this.value = '';
-        }
-      });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // フォームデータの取得
+    const formData = new FormData(e.target);
+    const selectedTypes = formData.getAll('consultation_type');
+    const date = formData.get('date');
+    const time = formData.get('time');
+    const message = formData.get('message');
+
+    // メッセージの作成
+    const messageText = `
+【お問い合わせ内容】
+${selectedTypes.join('、')}
+
+【希望日時】
+${date} ${time}
+
+【その他ご要望】
+${message || 'なし'}
+    `.trim();
+
+    try {
+      await liff.sendMessages([
+        {
+          type: "text",
+          text: messageText,
+        },
+      ]);
+      console.log("message sent");
+      
+      // 送信成功後にLIFFブラウザを閉じる
+      liff.closeWindow();
+    } catch (err) {
+      console.error("error", err);
+      setError("メッセージの送信に失敗しました。");
     }
-  }, []);
+  };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white min-h-screen">
-      <h1 className="text-2xl font-bold text-center mb-8 text-gray-800">イズホーム不動産<br/>お問い合わせフォーム</h1>
+    <div className="max-w-md mx-auto p-4 bg-white min-h-screen">
+      <h1 className="text-3xl font-bold text-center mb-10 text-gray-800">
+        イズホーム不動産<br />お問い合わせフォーム
+      </h1>
       {message && <p>{message}</p>}
-      {error && <p><code>{error}</code></p>}
+      {error && <p className="text-red-500"><code>{error}</code></p>}
       
-      <form action="/submit" method="post" className="space-y-6">
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-left text-gray-700">お問い合わせ内容 <span className="text-red-500">*</span></h2>
-          <div className="grid grid-cols-2 gap-3">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="space-y-6">
+          <h2 className="text-xl font-semibold text-left text-gray-700">
+            お問い合わせ内容 <span className="text-red-500">*</span>
+          </h2>
+          <div className="grid grid-cols-1 gap-4">
             {[
               '土地購入', '中古住宅購入', '中古マンション購入', '売却・住みかえ相談',
               'リフォーム相談', '新築相談', '周辺環境相談', '無料相談会に参加希望',
