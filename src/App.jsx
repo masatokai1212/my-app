@@ -12,10 +12,10 @@ function App() {
         liffId: import.meta.env.VITE_LIFF_ID
       })
       .then(() => {
-        setMessage("LIFF init succeeded.");
+        //setMessage("LIFF init succeeded.");
       })
       .catch((e) => {
-        setMessage("LIFF init failed.");
+        //setMessage("LIFF init failed.");
         setError(`${e}`);
       });
   });
@@ -36,13 +36,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>不動産相談予約フォーム</h1>
-      {message && <p>{message}</p>}
-      {error && (
-        <p>
-          <code>{error}</code>
-        </p>
-      )}
+      <h1>イズホーム不動産 相談予約フォーム</h1>
       <form action="/submit" method="post">
         <h2>ご相談内容（複数選択可）</h2>
         <div className="checkbox-group">
@@ -87,14 +81,6 @@ function App() {
         <div>
           <label htmlFor="name">お名前：</label>
           <input type="text" id="name" name="name" required />
-        </div>
-        <div>
-          <label htmlFor="email">メールアドレス：</label>
-          <input type="email" id="email" name="email" required />
-        </div>
-        <div>
-          <label htmlFor="phone">電話番号：</label>
-          <input type="tel" id="phone" name="phone" required />
         </div>
         <div>
           <label htmlFor="message">ご要望・ご質問など：</label>
