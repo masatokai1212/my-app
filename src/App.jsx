@@ -29,6 +29,19 @@ function App() {
           <code>{error}</code>
         </p>
       )}
+      <form action="/submit" method="post">
+        <div>
+          <label htmlFor="name">お名前：</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div>
+          <label htmlFor="email">メールアドレス：</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div>
+          <button type="submit">送信</button>
+        </div>
+      </form>
       <a
         href="https://developers.line.biz/ja/docs/liff/"
         target="_blank"
@@ -41,3 +54,4 @@ function App() {
 }
 
 export default App;
+
