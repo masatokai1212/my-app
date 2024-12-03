@@ -48,7 +48,13 @@ function App() {
               { id: 'land', label: '土地購入' },
               { id: 'used-house', label: '中古住宅購入' },
               { id: 'used-mansion', label: '中古マンション購入' },
-              { id: 'reform', label: 'リフォーム相談' }
+              { id: 'sell', label: '売却・住みかえ相談' },
+              { id: 'reform', label: 'リフォーム相談' },
+              { id: 'new-build', label: '新築相談' },
+              { id: 'surrounding', label: '周辺環境相談' },
+              { id: 'free-consultation', label: '無料相談会に参加希望' },
+              { id: 'remote-inspection', label: 'リモート内見希望' },
+              { id: 'other', label: 'その他' }
             ].map((item) => (
               <label key={item.id} className="flex items-center space-x-3 text-gray-700">
                 <input
@@ -76,6 +82,7 @@ function App() {
                 required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
+              <p className="text-gray-500 text-sm">※水曜日は定休日です</p>
             </div>
             <div className="flex flex-col space-y-2">
               <label htmlFor="time" className="text-gray-700">時間：</label>
@@ -103,6 +110,7 @@ function App() {
                 name="message"
                 rows="4"
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                placeholder="※気になる物件詳細ページ（ポータルサイトも可）のURLを記載いただきますとスムーズにご案内させていただきます。"
               ></textarea>
             </div>
           </div>
