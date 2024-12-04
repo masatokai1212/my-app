@@ -13,11 +13,11 @@ function App() {
         liffId: import.meta.env.VITE_LIFF_ID
       })
       .then(() => {
-        setMessage("LIFF init succeeded.");
+        //setMessage("LIFF init succeeded.");
         setIsLiffInitialized(true);
       })
       .catch((e) => {
-        setMessage("LIFF init failed.");
+        //setMessage("LIFF init failed.");
         setError(`${e}`);
       });
   }, []);
@@ -86,24 +86,20 @@ ${message || 'なし'}
           <h2 className="text-xl font-semibold text-left text-gray-700">
             お問い合わせ内容 <span className="text-red-500">*</span>
           </h2>
-          <div className="grid grid-cols-1 gap-4">
-            {[
-              '土地購入', '中古住宅購入', '中古マンション購入', '売却・住みかえ相談',
-              'リフォーム相談', '新築相談', '周辺環境相談', '無料相談会に参加希望',
-              'リモートで見学希望', 'その他'
-            ].map((label, index) => (
-              <label key={index} className="flex items-center space-x-3 text-gray-700 text-lg">
+          <div className="grid grid-cols-2 gap-4">
+            {['土地購入', '中古住宅購入', '中古マンション購入', '売却・住みかえ相談','リフォーム相談','新築相談','周辺環境相談','無料相談会に参加希望','リモートで見学希望','その他'].map((type) => (
+              <div key={type} className="flex items-center">
                 <input
                   type="checkbox"
+                  id={type}
                   name="consultation_type"
-                  value={label}
-                  className="w-6 h-6 text-blue-600 rounded focus:ring-blue-500"
+                  value={type}
+                  className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
-                <span className="flex-1">{label}</span>
-              </label>
+                <label htmlFor={type} className="ml-2 block text-lg text-gray-700">{type}</label>
+              </div>
             ))}
           </div>
-          <p className="text-red-500 text-base">※お問い合わせ内容を1つ以上選択してください。</p>
         </div>
 
         <div className="space-y-6">
@@ -151,7 +147,7 @@ ${message || 'なし'}
         <div className="pt-6 flex justify-center">
           <button
             type="submit"
-            className="w-full bg-black text-white text-xl py-4 px-6 rounded-full hover:bg-gray-800 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full max-w-xs bg-black text-white text-xl py-4 px-6 rounded-full hover:bg-gray-800 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             送信する
           </button>
