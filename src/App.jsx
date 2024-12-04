@@ -148,7 +148,7 @@ ${message || 'なし'}
           ></textarea>
         </div>
 
-        <p className="text-base text-gray-500 mt-4">※*は必須項目です。</p>
+        <p className="text-base text-gray-500 mt-4 font-rounded">※*は必須項目です。</p>
 
         <div className="pt-6 flex justify-center">
           <button
