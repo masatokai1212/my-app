@@ -43,6 +43,8 @@ function App() {
 
     // メッセージの作成
     const messageText = `
+お問い合わせありがとうございます！
+
 【お問い合わせ内容】
 ${selectedTypes.join('、')}
 
@@ -162,5 +164,4 @@ ${message || 'なし'}
 }
 
 export default App;
-
 
