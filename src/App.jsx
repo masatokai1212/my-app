@@ -116,7 +116,7 @@ ${message || 'なし'}
                 id="date"
                 name="date"
                 required
-                className="w-full p-4 text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-4 text-lg border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500"
               />
               <p className="text-gray-500 text-sm">※水曜日は定休日です</p>
             </div>
@@ -126,7 +126,7 @@ ${message || 'なし'}
                 id="time"
                 name="time"
                 required
-                className="w-full p-4 text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full p-4 text-lg border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">選択してください</option>
                 {['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'].map((time) => (
@@ -148,12 +148,10 @@ ${message || 'なし'}
           ></textarea>
         </div>
 
-        <p className="text-base text-gray-500 mt-4 font-rounded">※*は必須項目です。</p>
-
         <div className="pt-6 flex justify-center">
           <button
             type="submit"
-            className="w-full bg-black text-white text-xl py-4 px-6 rounded-md hover:bg-gray-800 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full bg-black text-white text-xl py-4 px-6 rounded-full hover:bg-gray-800 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             送信する
           </button>
