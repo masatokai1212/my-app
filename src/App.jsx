@@ -13,12 +13,10 @@ function App() {
         liffId: import.meta.env.VITE_LIFF_ID
       })
       .then(() => {
-        //setMessage("LIFF init succeeded.");
         setIsLiffInitialized(true);
       })
       .catch((e) => {
-        //setMessage("LIFF init failed.");
-        setError(`${e}`);
+        setError(`LIFF init failed: ${e}`);
       });
   }, []);
 
