@@ -15,9 +15,11 @@ function App() {
         liffId: liffId
       })
       .then(() => {
+        console.log("LIFF initialized successfully");
         setIsLiffInitialized(true);
       })
       .catch((e) => {
+        console.error("LIFF init failed:", e);
         setError(`LIFF init failed: ${e}`);
       });
   }, []);
