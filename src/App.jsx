@@ -8,9 +8,11 @@ function App() {
   const [isLiffInitialized, setIsLiffInitialized] = useState(false);
 
   useEffect(() => {
+    const liffId = import.meta.env.VITE_LIFF_ID;
+    console.log("LIFF ID:", liffId); // デバッグ用に追加
     liff
       .init({
-        liffId: '2006623693-pGMXYeXE'
+        liffId: liffId
       })
       .then(() => {
         setIsLiffInitialized(true);
