@@ -118,12 +118,17 @@ function App() {
 
         {propertyType === "土地" && (
           <div>
+            <label>住所情報</label>
             <label>
-              住所情報:
+              都道府県:
               <input type="text" name="landAddress" required />
             </label>
             <label>
-              最寄り駅:
+              市区町村:
+              <input type="text" name="landCity" required />
+            </label>  
+            <label>
+              最寄り駅（徒歩距離）:
               <input type="text" name="landNearestStation" required />
             </label>
             <label>
