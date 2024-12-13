@@ -15,8 +15,8 @@ function App() {
       .catch((e) => setError(`LIFF init failed: ${e}`));
   }, []);
 
-  const handlePropertyTypeChange = (e) => {
-    setPropertyType(e.target.value);
+  const handlePropertyTypeChange = (type) => {
+    setPropertyType(type);
   };
 
   const handleSubmit = (e) => {
@@ -32,15 +32,29 @@ function App() {
     <div className="App">
       <h1>AI査定フォーム</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          物件タイプ:
-          <select value={propertyType} onChange={handlePropertyTypeChange}>
-            <option value="">選択してください</option>
-            <option value="マンション">マンション</option>
-            <option value="一戸建">一戸建</option>
-            <option value="土地">土地</option>
-          </select>
-        </label>
+        <div className="property-type-buttons">
+          <button
+            type="button"
+            className={propertyType === "マンション" ? "active" : ""}
+            onClick={() => handlePropertyTypeChange("マンション")}
+          >
+            マンション
+          </button>
+          <button
+            type="button"
+            className={propertyType === "一戸建" ? "active" : ""}
+            onClick={() => handlePropertyTypeChange("一戸建")}
+          >
+            一戸建
+          </button>
+          <button
+            type="button"
+            className={propertyType === "土地" ? "active" : ""}
+            onClick={() => handlePropertyTypeChange("土地")}
+          >
+            土地
+          </button>
+        </div>
 
         {propertyType === "マンション" && (
           <div>
