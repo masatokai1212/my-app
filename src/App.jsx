@@ -3,144 +3,156 @@ import liff from "@line/liff";
 import "./App.css";
 
 function App() {
-  const [propertyType, setPropertyType] = useState("");
-  const [isLiffInitialized, setIsLiffInitialized] = useState(false);
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isLiffInitialized, setIsLiffInitialized] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
 
   useEffect(() => {
     const liffId = import.meta.env.VITE_LIFF_ID;
+    console.log("LIFF ID:", liffId); // デバッグ用に追加
     liff
-      .init({ liffId })
-      .then(() => setIsLiffInitialized(true))
-      .catch((e) => setError(`LIFF init failed: ${e}`));
+      .init({
+        liffId: liffId
+      })
+      .then(() => {
+        console.log("LIFF initialized successfully");
+        setIsLiffInitialized(true);
+      })
+      .catch((e) => {
+        console.error("LIFF init failed:", e);
+        setError(`LIFF init failed: ${e}`);
+      });
   }, []);
 
-  const handlePropertyTypeChange = (type) => {
-    setPropertyType(type);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!isLiffInitialized) {
       setError("LIFFの初期化が完了していません。");
       return;
     }
-    // フォームデータの処理
+
+    const formData = new FormData(e.target);
+    const selectedTypes = formData.getAll('consultation_type');
+    const date = formData.get('date');
+    const time = formData.get('time');
+    const message = formData.get('message');
+
+    // メッセージの作成
+    const messageText = `
+お問い合わせありがとうございます！
+
+【お問い合わせ内容】
+${selectedTypes.join('、')}
+
+【希望日時】
+${date} ${time}
+
+【その他ご要望】
+${message || 'なし'}
+    `.trim();
+
+    try {
+      console.log("Sending message:", messageText);
+      
+      await liff.sendMessages([
+        {
+          type: "text",
+          text: messageText
+        }
+      ]);
+
+      liff.closeWindow();
+    } catch (err) {
+      console.error("Error details:", err);
+      setError(`送信に失敗しました: ${err.message}`);
+    }
+  };
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
   };
 
   return (
-    <div className="App">
-      <h1>AI査定フォーム</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="property-type-buttons">
-          <button
-            type="button"
-            className={propertyType === "マンション" ? "active" : ""}
-            onClick={() => handlePropertyTypeChange("マンション")}
-          >
-            マンション
-          </button>
-          <button
-            type="button"
-            className={propertyType === "一戸建" ? "active" : ""}
-            onClick={() => handlePropertyTypeChange("一戸建")}
-          >
-            一戸建
-          </button>
-          <button
-            type="button"
-            className={propertyType === "土地" ? "active" : ""}
-            onClick={() => handlePropertyTypeChange("土地")}
-          >
-            土地
-          </button>
+    <div className="container">
+      <h1 className="title">
+        イズホーム不動産<br />お問い合わせフォーム
+      </h1>
+      {message && <p>{message}</p>}
+      {error && <p className="error"><code>{error}</code></p>}
+      
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-section">
+          <h2 className="section-title">
+            お問い合わせ内容 <span className="required">*</span>
+          </h2>
+          <div className="checkbox-grid">
+            {['土地購入', '中古住宅購入', '中古マンション購入', '売却・住みかえ相談','リフォーム相談','新築相談','周辺環境相談','無料相談会に参加希望','リモートで見学希望','その他'].map((type) => (
+              <div key={type} className="checkbox-item">
+                <input
+                  type="checkbox"
+                  id={type}
+                  name="consultation_type"
+                  value={type}
+                  className="checkbox"
+                />
+                <label htmlFor={type} className="checkbox-label">{type}</label>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {propertyType === "マンション" && (
+        <div className="form-section">
+          <h2 className="section-title">その他ご要望</h2>
+          <textarea
+            name="message"
+            className="textarea"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div className="button-group">
+          <button type="button" className="option-button" onClick={() => handleOptionChange('LINE返信')}>LINE返信</button>
+          <button type="button" className="option-button" onClick={() => handleOptionChange('LINE通話')}>LINE通話</button>
+          <button type="button" className="option-button" onClick={() => handleOptionChange('ご来店')}>ご来店</button>
+        </div>
+
+        {(selectedOption === 'LINE通話' || selectedOption === 'ご来店') && (
           <div className="form-section">
-            <label>
-              マンション名:
-              <input type="text" name="mansionName" required />
-            </label>
-            <label>
-              広さ（ｍ²）:
-              <input type="number" name="area" required />
-            </label>
-            <label>
-              階数:
-              <input type="number" name="floor" required />
-            </label>
-            <label>
-              方位（バルコニーの向き）:
-              <input type="text" name="direction" required />
-            </label>
+            <h2 className="section-title">希望日時</h2>
+            <div className="input-group">
+              <label htmlFor="date" className="input-label">日付を選択</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                required
+                className="input"
+              />
+              <p className="note">※水曜日は定休日です</p>
+            </div>
+            <div className="input-group">
+              <label htmlFor="time" className="input-label">時間を選択</label>
+              <select
+                id="time"
+                name="time"
+                required
+                className="input"
+              >
+                <option value="">選択してください</option>
+                {['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'].map((time) => (
+                  <option key={time} value={time}>{time}</option>
+                ))}
+              </select>
+            </div>
           </div>
         )}
 
-        {propertyType === "一戸建" && (
-          <div>
-            <label>住所情報</label>
-            <label>
-              都道府県
-              <input type="text" name="address" required />
-            </label>
-            <label>
-              市区町村
-              <input type="text" name="city" required />
-            </label>
-            <label>
-              最寄り駅（徒歩距離）:
-              <input type="text" name="nearestStation" required />
-            </label>
-            <label>建物情報</label>
-            <label>
-              構造:
-              <input type="text" name="buildingInfo" required />
-            </label>
-            <label>
-              築年数:
-              <input type="text" name="" required />
-            </label>
-            <label>
-              建物面積:
-              <input type="text" name="floorPlan" required />
-            </label>
-            <label>
-              土地面積:
-              <input type="text" name="floorPlan" required />
-            </label>
-            <label>
-              階数:
-              <input type="text" name="floorPlan" required　/>
-            </label>
-          </div>
-        )}
-
-        {propertyType === "土地" && (
-          <div>
-            <label>住所情報</label>
-            <label>
-              都道府県:
-              <input type="text" name="landAddress" required />
-            </label>
-            <label>
-              市区町村:
-              <input type="text" name="landCity" required />
-            </label>  
-            <label>
-              最寄り駅（徒歩距離）:
-              <input type="text" name="landNearestStation" required />
-            </label>
-            <label>
-              土地面積:
-              <input type="number" name="landArea" required />
-            </label>
-          </div>
-        )}
-
-        <button type="submit" className="submit-button">送信</button>
+        <div className="button-container">
+          <button type="submit" className="submit-button">送信する</button>
+        </div>
       </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }
