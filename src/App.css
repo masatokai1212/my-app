@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Rounded+Mplus+1c:wght@400;700&display=swap');
 
 body {
-  font-family: 'Rounded Mplus 1c', sans-serif;
-  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container {
@@ -38,6 +42,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .section-title {
@@ -127,13 +132,14 @@ body {
 }
 
 .submit-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  color: #fff;
+  width: 100%;
+  padding: 10px;
   background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 16px;
   transition: background-color 0.3s;
 }
 
@@ -142,15 +148,17 @@ body {
 }
 
 .App {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+h1 {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 15px;
+  color: #333;
 }
 
 .App h1 {
@@ -236,7 +244,12 @@ input[type="text"], input[type="email"], textarea {
 }
 
 label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #555;
   white-space: nowrap;
+  align-items: flex-start;
 }
 
 /* スマートフォン向けの調整 */
@@ -257,4 +270,31 @@ label {
     font-size: 18px;
     padding: 14px;
   }
+}
+
+.property-type-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.property-type-buttons button {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+  flex: 1;
+  margin: 0 5px;
+}
+
+.property-type-buttons button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.property-type-buttons button:hover {
+  background-color: #e0e0e0;
 }
