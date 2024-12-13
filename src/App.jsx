@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     liff
       .init({
-        liffId: import.meta.env.VITE_LIFF_ID
+        liffId: '2006623693-pGMXYeXE'
       })
       .then(() => {
         setIsLiffInitialized(true);
