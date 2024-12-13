@@ -57,7 +57,7 @@ function App() {
         </div>
 
         {propertyType === "マンション" && (
-          <div>
+          <div className="form-section">
             <label>
               マンション名:
               <input type="text" name="mansionName" required />
@@ -138,7 +138,7 @@ function App() {
           </div>
         )}
 
-        <button type="submit">送信</button>
+        <button type="submit" className="submit-button">送信</button>
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
