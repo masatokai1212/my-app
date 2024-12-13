@@ -63,7 +63,6 @@ ${message || 'なし'}
         }
       ]);
 
-      alert("送信が完了しました");
       liff.closeWindow();
     } catch (err) {
       console.error("Error details:", err);
