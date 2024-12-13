@@ -79,17 +79,39 @@ function App() {
 
         {propertyType === "一戸建" && (
           <div>
+            <label>住所情報</label>
             <label>
-              住所情報（都道府県、市区町村）:
+              都道府県
               <input type="text" name="address" required />
             </label>
             <label>
-              最寄り駅（徒歩距離（分））:
-              <input type="text" name="nearestStation" required />
+              市区町村
+              <input type="text" name="city" required />
             </label>
             <label>
-              建物情報（構造、建築年、建物面積、土地面積、階建）:
+              最寄り駅（徒歩距離）:
+              <input type="text" name="nearestStation" required />
+            </label>
+            <label>建物情報</label>
+            <label>
+              構造:
               <input type="text" name="buildingInfo" required />
+            </label>
+            <label>
+              築年数:
+              <input type="text" name="" required />
+            </label>
+            <label>
+              建物面積:
+              <input type="text" name="floorPlan" required />
+            </label>
+            <label>
+              土地面積:
+              <input type="text" name="floorPlan" required />
+            </label>
+            <label>
+              階数:
+              <input type="text" name="floorPlan" required　/>
             </label>
           </div>
         )}
