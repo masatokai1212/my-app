@@ -50,7 +50,7 @@ ${selectedTypes.join('、')}
 ${selectedOption}
 
 【希望日時】
-${date} ${time}
+${selectedOption === 'LINE通話' || selectedOption === 'ご来店' ? `${date} ${time}` : 'なし'}
 
 【その他ご要望】
 ${message || 'なし'}
