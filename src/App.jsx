@@ -46,6 +46,9 @@ function App() {
 【お問い合わせ内容】
 ${selectedTypes.join('、')}
 
+【希望方法】
+${selectedOption}
+
 【希望日時】
 ${date} ${time}
 
