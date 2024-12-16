@@ -116,9 +116,27 @@ ${message || 'なし'}
         </div>
 
         <div className="button-group">
-          <button type="button" className="option-button" onClick={() => handleOptionChange('LINE返信')}>LINE返信</button>
-          <button type="button" className="option-button" onClick={() => handleOptionChange('LINE通話')}>LINE通話</button>
-          <button type="button" className="option-button" onClick={() => handleOptionChange('ご来店')}>ご来店</button>
+          <button
+            type="button"
+            className={`option-button ${selectedOption === 'LINE返信' ? 'selected' : ''}`}
+            onClick={() => handleOptionChange('LINE返信')}
+          >
+            LINE返信
+          </button>
+          <button
+            type="button"
+            className={`option-button ${selectedOption === 'LINE通話' ? 'selected' : ''}`}
+            onClick={() => handleOptionChange('LINE通話')}
+          >
+            LINE通話
+          </button>
+          <button
+            type="button"
+            className={`option-button ${selectedOption === 'ご来店' ? 'selected' : ''}`}
+            onClick={() => handleOptionChange('ご来店')}
+          >
+            ご来店
+          </button>
         </div>
 
         {(selectedOption === 'LINE通話' || selectedOption === 'ご来店') && (
