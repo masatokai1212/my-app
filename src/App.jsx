@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
 import "./App.css";
+import MansionForm from "./components/MansionForm";
+import HouseForm from "./components/HouseForm";
+import LandForm from "./components/LandForm";
 
 function App() {
   const [propertyType, setPropertyType] = useState("");
@@ -56,87 +59,9 @@ function App() {
           </button>
         </div>
 
-        {propertyType === "マンション" && (
-          <div className="form-section">
-            <label>
-              マンション名:
-              <input type="text" name="mansionName" required />
-            </label>
-            <label>
-              広さ（ｍ²）:
-              <input type="number" name="area" required />
-            </label>
-            <label>
-              階数:
-              <input type="number" name="floor" required />
-            </label>
-            <label>
-              方位（バルコニーの向き）:
-              <input type="text" name="direction" required />
-            </label>
-          </div>
-        )}
-
-        {propertyType === "一戸建" && (
-          <div>
-            <label>住所情報</label>
-            <label>
-              都道府県
-              <input type="text" name="address" required />
-            </label>
-            <label>
-              市区町村
-              <input type="text" name="city" required />
-            </label>
-            <label>
-              最寄り駅（徒歩距離）:
-              <input type="text" name="nearestStation" required />
-            </label>
-            <label>建物情報</label>
-            <label>
-              構造:
-              <input type="text" name="buildingInfo" required />
-            </label>
-            <label>
-              築年数:
-              <input type="text" name="" required />
-            </label>
-            <label>
-              建物面積:
-              <input type="text" name="floorPlan" required />
-            </label>
-            <label>
-              土地面積:
-              <input type="text" name="floorPlan" required />
-            </label>
-            <label>
-              階数:
-              <input type="text" name="floorPlan" required　/>
-            </label>
-          </div>
-        )}
-
-        {propertyType === "土地" && (
-          <div>
-            <label>住所情報</label>
-            <label>
-              都道府県:
-              <input type="text" name="landAddress" required />
-            </label>
-            <label>
-              市区町村:
-              <input type="text" name="landCity" required />
-            </label>  
-            <label>
-              最寄り駅（徒歩距離）:
-              <input type="text" name="landNearestStation" required />
-            </label>
-            <label>
-              土地面積:
-              <input type="number" name="landArea" required />
-            </label>
-          </div>
-        )}
+        {propertyType === "マンション" && <MansionForm />}
+        {propertyType === "一戸建" && <HouseForm />}
+        {propertyType === "土地" && <LandForm />}
 
         <button type="submit" className="submit-button">送信</button>
       </form>
