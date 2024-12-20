@@ -6,56 +6,139 @@ import HouseForm from "./components/HouseForm";
 import LandForm from "./components/LandForm";
 
 function App() {
-  const [propertyType, setPropertyType] = useState("");
-  const [isLiffInitialized, setIsLiffInitialized] = useState(false);
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isLiffInitialized, setIsLiffInitialized] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
 
   useEffect(() => {
     const liffId = import.meta.env.VITE_LIFF_ID;
+    console.log("LIFF ID:", liffId); // デバッグ用に追加
     liff
-      .init({ liffId })
-      .then(() => setIsLiffInitialized(true))
-      .catch((e) => setError(`LIFF init failed: ${e}`));
+      .init({
+        liffId: liffId
+      })
+      .then(() => {
+        console.log("LIFF initialized successfully");
+        setIsLiffInitialized(true);
+      })
+      .catch((e) => {
+        console.error("LIFF init failed:", e);
+        setError(`LIFF init failed: ${e}`);
+      });
   }, []);
 
-  const handlePropertyTypeChange = (type) => {
-    setPropertyType(type);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!isLiffInitialized) {
       setError("LIFFの初期化が完了していません。");
       return;
     }
-    // フォームデータの処理
+
+    const formData = new FormData(e.target);
+    const selectedTypes = formData.getAll('consultation_type');
+    const date = formData.get('date');
+    const time = formData.get('time');
+    const message = formData.get('message');
+
+    // メッセージの作成
+    const messageText = `
+お問い合わせありがとうございます！
+
+【お問い合わせ内容】
+${selectedTypes.join('、')}
+
+【希望方法】
+${selectedOption}
+
+【希望日時】
+${selectedOption === 'LINE通話' || selectedOption === 'ご来店' ? `${date} ${time}` : 'なし'}
+
+【その他ご要望】
+${message || 'なし'}
+    `.trim();
+
+    try {
+      console.log("Sending message:", messageText);
+      
+      await liff.sendMessages([
+        {
+          type: "text",
+          text: messageText
+        }
+      ]);
+
+      liff.closeWindow();
+    } catch (err) {
+      console.error("Error details:", err);
+      setError(`送信に失敗しました: ${err.message}`);
+    }
+  };
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
   };
 
   return (
-    <div className="App">
-      <h1>AI査定フォーム</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="property-type-buttons">
+    <div className="container">
+      <h1 className="title">
+        イズホーム不動産<br />お問い合わせフォーム
+      </h1>
+      {message && <p>{message}</p>}
+      {error && <p className="error"><code>{error}</code></p>}
+      
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-section">
+          <h2 className="section-title">
+            お問い合わせ内容 <span className="required">*</span>
+          </h2>
+          <div className="checkbox-grid">
+            {['土地購入', '中古住宅購入', '中古マンション購入', '売却・住みかえ相談','リフォーム相談','新築相談','周辺環境相談','無料相談会に参加希望','リモートで見学希望','その他'].map((type) => (
+              <div key={type} className="checkbox-item">
+                <input
+                  type="checkbox"
+                  id={type}
+                  name="consultation_type"
+                  value={type}
+                  className="checkbox"
+                />
+                <label htmlFor={type} className="checkbox-label">{type}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="form-section">
+          <h2 className="section-title">その他ご要望</h2>
+          <textarea
+            name="message"
+            className="textarea"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div className="button-group">
           <button
             type="button"
-            className={propertyType === "マンション" ? "active" : ""}
-            onClick={() => handlePropertyTypeChange("マンション")}
+            className={`option-button ${selectedOption === 'LINE返信' ? 'selected' : ''}`}
+            onClick={() => handleOptionChange('LINE返信')}
           >
-            マンション
+            LINE返信
           </button>
           <button
             type="button"
-            className={propertyType === "一戸建" ? "active" : ""}
-            onClick={() => handlePropertyTypeChange("一戸建")}
+            className={`option-button ${selectedOption === 'LINE通話' ? 'selected' : ''}`}
+            onClick={() => handleOptionChange('LINE通話')}
           >
-            一戸建
+            LINE通話
           </button>
           <button
             type="button"
-            className={propertyType === "土地" ? "active" : ""}
-            onClick={() => handlePropertyTypeChange("土地")}
+            className={`option-button ${selectedOption === 'ご来店' ? 'selected' : ''}`}
+            onClick={() => handleOptionChange('ご来店')}
           >
-            土地
+            ご来店
           </button>
         </div>
 
@@ -65,7 +148,6 @@ function App() {
 
         <button type="submit" className="submit-button">送信</button>
       </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }
