@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
-import liff from "@line/liff";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import MansionForm from './components/MansionForm';
+import HouseForm from './components/HouseForm';
+import LandForm from './components/LandForm';
 
 function App() {
+<<<<<<< HEAD
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isLiffInitialized, setIsLiffInitialized] = useState(false);
@@ -144,7 +147,41 @@ ${orientation}
         </div>
       </form>
     </div>
+=======
+  return (
+    <Router>
+      <div>
+        <ConditionalNav />
+        <Routes>
+          <Route path="/mansion" element={<MansionForm />} />
+          <Route path="/house" element={<HouseForm />} />
+          <Route path="/land" element={<LandForm />} />
+        </Routes>
+      </div>
+    </Router>
+>>>>>>> 015059dfac2e4382c89b6c139816f942cd1fcd28
   );
+}
+
+function ConditionalNav() {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
+  return isHome ? (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/mansion">マンションフォーム</Link>
+        </li>
+        <li>
+          <Link to="/house">戸建てフォーム</Link>
+        </li>
+        <li>
+          <Link to="/land">土地フォーム</Link>
+        </li>
+      </ul>
+    </nav>
+  ) : null;
 }
 
 export default App;
