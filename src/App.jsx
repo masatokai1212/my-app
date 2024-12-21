@@ -5,7 +5,6 @@ import HouseForm from './components/HouseForm';
 import LandForm from './components/LandForm';
 
 function App() {
-<<<<<<< HEAD
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isLiffInitialized, setIsLiffInitialized] = useState(false);
@@ -147,19 +146,6 @@ ${orientation}
         </div>
       </form>
     </div>
-=======
-  return (
-    <Router>
-      <div>
-        <ConditionalNav />
-        <Routes>
-          <Route path="/mansion" element={<MansionForm />} />
-          <Route path="/house" element={<HouseForm />} />
-          <Route path="/land" element={<LandForm />} />
-        </Routes>
-      </div>
-    </Router>
->>>>>>> 015059dfac2e4382c89b6c139816f942cd1fcd28
   );
 }
 
