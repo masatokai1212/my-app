@@ -11,10 +11,7 @@
   "dependencies": {
     "@line/liff": "2.25.0",
     "autoprefixer": "^10.4.20",
-<<<<<<< HEAD
     "classnames": "^2.5.1",
-=======
->>>>>>> 97b0410f40daf6165239bdd26ca5f256a5be867e
     "lucide-react": "^0.468.0",
     "postcss": "^8.4.49",
     "prop-types": "^15.8.1",
