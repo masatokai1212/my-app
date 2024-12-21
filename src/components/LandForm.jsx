@@ -1,20 +1,12 @@
-import React from "react";
+import React from 'react';
 
-const LandForm = () => (
-  <div className="form-section">
-    <label>
-      住所情報:
-      <input type="text" name="landAddress" required />
-    </label>
-    <label>
-      最寄り駅:
-      <input type="text" name="landNearestStation" required />
-    </label>
-    <label>
-      土地面積:
-      <input type="number" name="landArea" required />
-    </label>
-  </div>
-);
+function LandForm() {
+  return (
+    <div>
+      <h2>土地フォーム</h2>
+      {/* 土地フォームの内容をここに追加 */}
+    </div>
+  );
+}
 
 export default LandForm;

@@ -1,29 +1,33 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Mansion from "./components/Mansion";
-import House from "./components/House";
-import Land from "./components/Land";
-import "./App.css";
-import MansionForm from "./components/MansionForm";
-import HouseForm from "./components/HouseForm";
-import LandForm from "./components/LandForm";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import MansionForm from './components/MansionForm';
+import HouseForm from './components/HouseForm';
+import LandForm from './components/LandForm';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <h1>不動産情報</h1>
-        <button onClick={() => window.location.href = "/mansion"}>マンション</button>
-        <button onClick={() => window.location.href = "/house"}>一戸建</button>
-        <button onClick={() => window.location.href = "/land"}>土地</button>
+      <div>
+        <h1>フォーム選択</h1>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/mansion">マンションフォーム</Link>
+            </li>
+            <li>
+              <Link to="/house">戸建てフォーム</Link>
+            </li>
+            <li>
+              <Link to="/land">土地フォーム</Link>
+            </li>
+          </ul>
+        </nav>
 
-        <Switch>
-          <Route path="/mansion" component={Mansion} />
-          <Route path="/house" component={House} />
-          <Route path="/land" component={Land} />
-          <Route path="/" exact component={() => <div>ホームページ</div>} />
-          <Route component={() => <div>Page Not Found</div>} />
-        </Switch>
+        <Routes>
+          <Route path="/mansion" element={<MansionForm />} />
+          <Route path="/house" element={<HouseForm />} />
+          <Route path="/land" element={<LandForm />} />
+        </Routes>
       </div>
     </Router>
   );
