@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import liff from '@line/liff';
 
 function MansionForm() {
@@ -8,39 +8,62 @@ function MansionForm() {
     floor: '3階',
     direction: '東向き',
   });
+  const [error, setError] = useState('');
+  const [isLiffInitialized, setIsLiffInitialized] = useState(false);
+
+  useEffect(() => {
+    liff.init({ liffId: process.env.VITE_LIFF_ID })
+      .then(() => {
+        console.log('LIFF initialized successfully');
+        setIsLiffInitialized(true);
+      })
+      .catch((e) => {
+        console.error('LIFF init failed:', e);
+        setError(`LIFF init failed: ${e}`);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isLiffInitialized) {
+      setError('LIFFの初期化が完了していません。');
+      return;
+    }
+
     const message = `
       マンション名: ${formData.name}
       広さ: ${formData.size}㎡
       階数: ${formData.floor}
       方位: ${formData.direction}
-    `;
+    `.trim();
 
-    liff.sendMessages([
-      {
-        type: 'text',
-        text: message,
-      },
-    ])
-    .then(() => {
-      console.log('Message sent');
+    try {
+      console.log('Sending message:', message);
+
+      await liff.sendMessages([
+        {
+          type: 'text',
+          text: message,
+        },
+      ]);
+
       liff.closeWindow();
-    })
-    .catch((err) => {
+    } catch (err) {
       console.error('Error sending message', err);
-    });
+      setError(`送信に失敗しました: ${err.message}`);
+    }
   };
 
   return (
     <div className="p-4 max-w-md mx-auto bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">マンションフォーム</h2>
+      {error && <p className="text-red-500">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700">マンション名</label>

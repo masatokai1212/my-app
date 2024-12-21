@@ -5,7 +5,7 @@ import App from './App';
 import './App.css';
 import liff from '@line/liff';
 
-liff.init({ liffId: 'YOUR_LIFF_ID' })
+liff.init({ liffId: process.env.VITE_LIFF_ID })
   .then(() => {
     console.log('LIFF initialized');
   })
