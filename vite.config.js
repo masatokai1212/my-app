@@ -11,4 +11,10 @@ export default defineConfig({
       plugins: [tailwindcss, autoprefixer],
     },
   },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: '/src/index.html',
+    },
+  },
 });
