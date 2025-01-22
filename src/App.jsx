@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
-import liff from "@line/liff";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import MansionForm from './components/MansionForm';
+import HouseForm from './components/HouseForm';
+import LandForm from './components/LandForm';
 
 function App() {
   const [message, setMessage] = useState("");
@@ -34,26 +36,26 @@ function App() {
     }
 
     const formData = new FormData(e.target);
-    const selectedTypes = formData.getAll('consultation_type');
-    const date = formData.get('date');
-    const time = formData.get('time');
-    const message = formData.get('message');
+    const mansionName = formData.get('mansion_name');
+    const area = formData.get('area');
+    const floor = formData.get('floor');
+    const orientation = formData.get('orientation');
 
     // メッセージの作成
     const messageText = `
-お問い合わせありがとうございます！
+査定依頼ありがとうございます！
 
-【お問い合わせ内容】
-${selectedTypes.join('、')}
+【マンション名】
+${mansionName}
 
-【希望方法】
-${selectedOption}
+【広さ】
+${area} m²
 
-【希望日時】
-${selectedOption === 'LINE通話' || selectedOption === 'ご来店' ? `${date} ${time}` : 'なし'}
+【階数】
+${floor}
 
-【その他ご要望】
-${message || 'なし'}
+【方位】
+${orientation}
     `.trim();
 
     try {
@@ -80,102 +82,92 @@ ${message || 'なし'}
   return (
     <div className="container">
       <h1 className="title">
-        イズホーム不動産<br />お問い合わせフォーム
+        マンション査定フォーム
       </h1>
       {message && <p>{message}</p>}
       {error && <p className="error"><code>{error}</code></p>}
       
       <form onSubmit={handleSubmit} className="form">
         <div className="form-section">
-          <h2 className="section-title">
-            お問い合わせ内容 <span className="required">*</span>
-          </h2>
-          <div className="checkbox-grid">
-            {['土地購入', '中古住宅購入', '中古マンション購入', '売却・住みかえ相談','リフォーム相談','新築相談','周辺環境相談','無料相談会に参加希望','リモートで見学希望','その他'].map((type) => (
-              <div key={type} className="checkbox-item">
-                <input
-                  type="checkbox"
-                  id={type}
-                  name="consultation_type"
-                  value={type}
-                  className="checkbox"
-                />
-                <label htmlFor={type} className="checkbox-label">{type}</label>
-              </div>
-            ))}
-          </div>
+          <label htmlFor="mansion_name" className="input-label">マンション名</label>
+          <input
+            type="text"
+            id="mansion_name"
+            name="mansion_name"
+            required
+            className="input"
+            placeholder="※3文字以上入力でサジェスト"
+          />
         </div>
 
         <div className="form-section">
-          <h2 className="section-title">その他ご要望</h2>
-          <textarea
-            name="message"
-            className="textarea"
-            rows="4"
-          ></textarea>
+          <label htmlFor="area" className="input-label">広さ (m²)</label>
+          <input
+            type="number"
+            id="area"
+            name="area"
+            required
+            className="input"
+          />
         </div>
 
-        <div className="button-group">
-          <button
-            type="button"
-            className={`option-button ${selectedOption === 'LINE返信' ? 'selected' : ''}`}
-            onClick={() => handleOptionChange('LINE返信')}
+        <div className="form-section">
+          <label htmlFor="floor" className="input-label">階数</label>
+          <select
+            id="floor"
+            name="floor"
+            required
+            className="input"
           >
-            LINE返信
-          </button>
-          <button
-            type="button"
-            className={`option-button ${selectedOption === 'LINE通話' ? 'selected' : ''}`}
-            onClick={() => handleOptionChange('LINE通話')}
-          >
-            LINE通話
-          </button>
-          <button
-            type="button"
-            className={`option-button ${selectedOption === 'ご来店' ? 'selected' : ''}`}
-            onClick={() => handleOptionChange('ご来店')}
-          >
-            ご来店
-          </button>
+            <option value="1階">1階</option>
+            <option value="2階">2階</option>
+            <option value="3階">3階</option>
+            {/* 他の階数も追加可能 */}
+          </select>
         </div>
 
-        {(selectedOption === 'LINE通話' || selectedOption === 'ご来店') && (
-          <div className="form-section">
-            <h2 className="section-title">希望日時</h2>
-            <div className="input-group">
-              <label htmlFor="date" className="input-label">日付を選択</label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                required
-                className="input"
-              />
-              <p className="note">※水曜日は定休日です</p>
-            </div>
-            <div className="input-group">
-              <label htmlFor="time" className="input-label">時間を選択</label>
-              <select
-                id="time"
-                name="time"
-                required
-                className="input"
-              >
-                <option value="">選択してください</option>
-                {['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'].map((time) => (
-                  <option key={time} value={time}>{time}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        )}
+        <div className="form-section">
+          <label htmlFor="orientation" className="input-label">方位</label>
+          <select
+            id="orientation"
+            name="orientation"
+            required
+            className="input"
+          >
+            <option value="東向き">東向き</option>
+            <option value="西向き">西向き</option>
+            <option value="南向き">南向き</option>
+            <option value="北向き">北向き</option>
+          </select>
+        </div>
 
         <div className="button-container">
-          <button type="submit" className="submit-button">送信する</button>
+          <button type="submit" className="submit-button">査定する</button>
         </div>
       </form>
     </div>
   );
+}
+
+function ConditionalNav() {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
+  return isHome ? (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/mansion">マンションフォーム</Link>
+        </li>
+        <li>
+          <Link to="/house">戸建てフォーム</Link>
+        </li>
+        <li>
+          <Link to="/land">土地フォーム</Link>
+        </li>
+      </ul>
+    </nav>
+  ) : null;
 }
 
 export default App;
